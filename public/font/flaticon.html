@@ -1,0 +1,89 @@
+<g:render template="/wonderpublish/loginChecker"></g:render>
+<g:render template="/${session['entryController']}/navheader"></g:render>
+<div class="user-profile-orders container r-form-edit">
+  <div class="tab-content user-profile-orders-tab-content">
+      <g:form name="userProfile" url="[action:'updateUserProfile',controller:'creation']" method="post">
+        <div class="user-profile-details">
+          <input type="text" class="user-profile-input input-disabled" name='name' id="name" value="<%= session["userdetails"]!=null?session["userdetails"].name:"" %>">
+          <%if((session['userdetails'].email==null) || (session['userdetails'].email=="email@email.com") || (session['userdetails'].email=="")){%>
+            <input type="email" name="email" id="email" class="user-profile-input" placeholder="Please update you email">
+          <%} else { %>
+            <input type="email" name="email" id="email" class="user-profile-input input-disabled" value="<%= session["userdetails"]!=null?session["userdetails"].email:""%>" disabled="disabled">
+          <% } %>
+          <div class="user-profile-password">
+            <input type="password" id="user-password" class="user-profile-input input-disabled" value="••••••••••••" name="password" readonly disabled="disabled" style="border-top-left-radius: 0; border-top-right-radius: 0;">
+            <a href="#change-password-modal" data-toggle="modal" id="change-user-password" class="change-password-profile">Change password</a>
+          </div>
+          <input type="text" name="mobile" placeholder="Mobile" id="mobile" class="user-profile-input input-disabled" value="<%= session["userdetails"]!=null?"+91 "+session["userdetails"].mobile:""%>" disabled="disabled">
+<%  if(session["userdetails"].userType=="student") { %>
+          <input type="text" name="institution" placeholder="Institution" id="institution" class="user-profile-input input-disabled" value="<%= session["userdetails"]!=null?session["userdetails"].institution:""%>">
+          <input type="text" name="department" placeholder="Department" id="department" class="user-profile-input input-disabled" value="<%= session["userdetails"]!=null?session["userdetails"].department:""%>">
+          <select class="form-control sage-input-select r-select user-profile-input input-disabled" id="inst-int-ares" multiple="multiple" name="interests"  >
+            <option>Aging and Gerontology</option>
+            <option>Anthropology &amp; Archaeology</option>
+            <option>Area and Ethnic Studies</option>
+            <option>Arts & Humanitiess</option>
+            <option>Business & Management</option>
+            <option>Communication and Media Studies</option>
+            <option>Counseling and Psychotherapy</option>
+            <option>Criminology & Criminal Justice</option>
+            <option>Cultural Studies</option>
+            <option>Economics & Development Studies</option>
+            <option>Education</option>
+            <option>Engineering</option>
+            <option>Environmental Studies</option>
+            <option>Family Studies</option>
+            <option>Gender & Sexuality Studies</option>
+            <option>Health and Nursing</option>
+            <option>Urban Studies and Geography</option>
+            <option>History</option>
+            <option>Information Science</option>
+            <option>Interpersonal/Domestic Violence</option>
+            <option>Politics & International Relations</option>
+            <option>Psychology</option>
+            <option>Research Methods</option>
+            <option>Social Work & Social Policy</option>
+            <option>Sociology</option>
+            <option>Study Skills</option>
+            <option>Theology and Biblical Studies</option>
+            <option>Vocational and Professional Studies</option>
+            <option>Medicine</option>
+            <option>Science and Technology</option>
+            <option>Serious Non-Fiction</option>
+            <option>Other</option>
+          </select>
+<%  } else { %>
+          <select class="form-control sage-input-select r-select user-profile-input input-disabled" id="course-level" name="qualification" required >
+            <option value="" hidden>Course Level</option>
+            <option value="Undergraduate">Undergraduate</option>
+            <option value="Post Graduate">Post Graduate</option>
+            <option value="Certificate/Diploma">Certificate/Diploma</option>
+          </select>
+          <input type="text" name="studentDiscipline" placeholder="Discipline/Subject like history, etc." id="discipline-student" class="user-profile-input input-disabled" value="<%=session["userdetails"]!=null?session["userdetails"].studentDiscipline:""%>">
+<%  } %>
+          <select class="form-control sage-input-select selectpicker countrypicker user-profile-input input-disabled" id="country-drp" name="country" data-default="<%= session["userdetails"]!=null?session["userdetails"].country:""%>"  placeholder="Country"></select>
+        </div>
+        <div  class="update-profile-area"><p><br></div>
+        <div class="user-profile-details">
+
+            <input type="text" class="user-profile-input" name="address1" id="address1" value="<%= session["userdetails"]!=null?session["userdetails"].address1:"" %>" placeholder="Institution Address">
+            <input type="text" class="user-profile-input" name="city" id="city" value="<%= session["userdetails"]!=null?session["userdetails"].city:"" %>" placeholder="Institution City">
+            <input type="text" class="user-profile-input" name="state" id="state" value="<%= session["userdetails"]!=null?session["userdetails"].state:"" %>" placeholder="Institution State">
+            <input type="text" class="user-profile-input" name="twitter" id="twitter" value="<%= session["userdetails"]!=null?session["userdetails"].twitter:"" %>" placeholder="PIN Code">
+        </div>
+        <div class="update-profile-area text-center">
+          <button class="btn update-profile-btn waves-effect ">Update</button>
+        </div>
+        <input type="hidden" name="mode" value="update">
+      </g:form>
+  </div>
+  <script>
+      $(window).load(function() {
+          $('#inst-int-ares').val('<%= session["userdetails"]!=null?session["userdetails"].interests:""%>'.split(',')).multiselect("refresh");
+          $('#course-level').val('<%= session["userdetails"]!=null?session["userdetails"].qualification:""%>'.split(',')).multiselect("refresh");
+      });
+  </script>
+</div>
+<g:render template="/creation/changePasswordModal"></g:render>
+<g:render template="/wonderpublish/bookReviewModal"></g:render>
+<g:render template="/${session['entryController']}/footer"></g:render>
